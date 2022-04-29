@@ -1,0 +1,360 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Challenge NodeJs - Capítulo II, Desafio 2",
+    "description": "API - NodeJs - Desafio 2",
+    "version": "1.0.0",
+    "contact": {
+      "email": "teste@dev.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Create a new user"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new user",
+        "description": "Create a new user",
+        "requestBody": {
+          "description": "Mandatory fields to create a new user!",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Fulano da Silva",
+                  "email": "email@teste.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "admin": true,
+                    "id": "22a1bc8c-c118-4e6d-adf6-2178a3533999",
+                    "name": "Fulano da Silva",
+                    "email": "email@teste.com",
+                    "created_at": "2022-04-28T12:57:58.590Z",
+                    "updated_at": "2022-04-28T12:57:58.590Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Enter another e-mail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "This e-mail already in use."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users",
+        "description": "Accessible only to admin users",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "User Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "properties": {
+                  "admin": {
+                    "type": "boolean"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string"
+                  }
+                },
+                "example": [
+                  {
+                    "admin": true,
+                    "id": "22a1bc8c-c118-4e6d-adf5-2678a3544999",
+                    "name": "Fulano da Silva",
+                    "email": "email@teste.com",
+                    "created_at": "2022-04-28T13:27:05.590Z",
+                    "updated_at": "2022-04-28T13:57:17.293Z"
+                  },
+                  {
+                    "admin": false,
+                    "id": "33a1bc8c-c118-4e6d-adf5-2678a3544999",
+                    "name": "Fulana Teste",
+                    "email": "emailFulana@teste.com",
+                    "created_at": "2022-04-28T13:27:05.590Z",
+                    "updated_at": "2022-04-28T13:57:17.293Z"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "User doesn't have permission or user not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Only admins can list users"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List the intended user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "properties": {
+                  "admin": {
+                    "type": "boolean"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "admin": true,
+                  "id": "22a1bc8c-c118-4e6d-adf5-2678a3544999",
+                  "name": "Fulano da Silva",
+                  "email": "email@teste.com",
+                  "created_at": "2022-04-28T13:27:05.590Z",
+                  "updated_at": "2022-04-28T13:57:17.293Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "You need to be an administrator to list the user"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Grants admin privileges to the user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "properties": {
+                  "admin": {
+                    "type": "boolean"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "admin": true,
+                  "id": "22a1bc8c-c118-4e6d-adf5-2678a3544999",
+                  "name": "Fulano da Silva",
+                  "email": "email@teste.com",
+                  "created_at": "2022-04-28T13:27:05.590Z",
+                  "updated_at": "2022-04-28T13:57:17.293Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "You need to be an administrator"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
